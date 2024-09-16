@@ -19,10 +19,9 @@ Routes.post('/login', async (req, res) => {
     const user = new UserController()
     const result = await user.userLogin({ email, password })
 
-    res.send({
-        status: result.status,
-        token: result.token        
-    })
+    console.log(result)
+
+    res.send(result)
 })  
 
 module.exports = Routes

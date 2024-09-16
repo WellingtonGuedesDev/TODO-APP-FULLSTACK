@@ -30,16 +30,26 @@ class UserController {
         if (!this.validateParams.validatePassword(user.password)) return badRequest('Email ou senha invalida');
 
         const userData = await this.dataAcess.checkUserExist({ email: user.email });
-        if (!userData) return badRequest('Usuario não existe!')
+        if (!userData) return badRequest('Usuario não existe!');
 
         const checkPass = await this.hash.checkPassword(userData.hash, user.password);
 
-        if(!checkPass) return badRequest('Email ou senha invalida');
+        if (!checkPass) return badRequest('Email ou senha invalida');
 
-        const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const id = userData._id;
 
-        const status = ok('Usuario Logado')
-        return { status, token }
+        const status = ok('Usuario Logado');
+
+        return {
+            id: id,
+            status: {
+                sucess: status.sucess,
+                statusCode: status.statusCode,
+                message: status.message,
+            },
+            token
+        }
     }
 }
 
