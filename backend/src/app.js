@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const Routes = require('../Routes/routes');
-const UserRoutes = require('../Routes/userRoutes');
+//const Routes = require('./Routes/userRoutes.js');
+const UserRoutes = require('./Routes/userRoutes.js');
 const { config } = require('dotenv');
 
-const { Mongo } = require('../config/db.js');
+//const { Mongo } = require('../src/models/users.js');
 
 config()
 async function main() {
@@ -13,7 +13,7 @@ async function main() {
 
     app.use(express.json());
     app.use(cors());
-    app.use('/', Routes);
+    //app.use('/', Routes);
     app.use('/auth', UserRoutes);
     
     const PORT = process.env.PORT || 5000;
